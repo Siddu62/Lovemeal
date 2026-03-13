@@ -1,10 +1,10 @@
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+import os
 SECRET_KEY = 'django-insecure-lovemeal-secret-key-change-in-production'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -37,6 +37,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Add this line!
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    # ... everything else stays the same
 ]
 
 ROOT_URLCONF = 'lovemeal.urls'
@@ -94,7 +97,7 @@ LOGOUT_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
