@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Registration - Lovemeal{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #E07B39 0%, #d16829 100%);">
+                    <h3 class="mb-0"><i class="fas fa-user-plus"></i> Customer Registration</h3>
+                    <p class="mb-0">Join Lovemeal and order authentic home food!</p>
+                </div>
+                <div class="card-body p-5">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">First Name *</label>
+                                <input type="text" class="form-control" name="first_name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Last Name *</label>
+                                <input type="text" class="form-control" name="last_name" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email *</label>
+                            <input type="email" class="form-control" name="email" required>
+                            <small class="text-muted">This will be your username</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Phone Number *</label>
+                            <input type="text" class="form-control" name="phone" required maxlength="10" pattern="[0-9]{10}">
+                            <small class="text-muted">10 digit mobile number</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Home State (Optional)</label>
+                            <select class="form-select" name="home_state">
+                                <option value="">Select your home state</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <small class="text-muted">Helps us suggest regional food</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Password *</label>
+                            <input type="password" class="form-control" name="password" id="password" required minlength="6">
+                            <small class="text-muted">Minimum 6 characters</small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Confirm Password *</label>
+                            <input type="password" class="form-control" name="confirm_password" required minlength="6">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                            <i class="fas fa-user-check"></i> Create Account
+                        </button>
+
+                        <div class="text-center">
+                            <p class="mb-0">Already have an account? <a href="/customers/login/" class="text-decoration-none fw-bold" style="color: #E07B39;">Login here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

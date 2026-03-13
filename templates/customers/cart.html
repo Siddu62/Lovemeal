@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<h2>Your Cart</h2>
+
+<table class="table">
+<tr>
+<th>Food</th>
+<th>Qty</th>
+<th>Price</th>
+<th>Total</th>
+</tr>
+
+{% for item in items %}
+<tr>
+<td>{{ item.food_item.name }}</td>
+<td>{{ item.quantity }}</td>
+<td>₹{{ item.food_item.selling_price }}</td>
+<td>₹{{ item.subtotal }}</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="4">Cart is empty</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<h4>Total: ₹{{ cart.total }}</h4>
+
+<a href="{% url 'customers:place_order' %}"
+   class="btn btn-success">
+   Place Order
+</a>
+
+</div>
+
+{% endblock %}

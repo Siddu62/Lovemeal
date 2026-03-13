@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* Warm, Appetizing Background applied to the body */
+    body {
+        background-color: #FFF5EC !important; 
+        background-image: radial-gradient(#E07B39 1.5px, transparent 1.5px);
+        background-size: 30px 30px;
+    }
+
+    /* Ensure Hero Section covers the dotted background */
+    .hero-section {
+        background: linear-gradient(135deg, #E07B39, #d16829) !important;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Ellipse Floating Food Image for standard cards */
+    .food-ellipse-img {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: -40px auto 15px auto; 
+        border: 5px solid white;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        transition: 0.3s ease;
+    }
+
+    /* Redesigned Card */
+    .menu-card-custom {
+        background: white;
+        border-radius: 25px;
+        border: none;
+        margin-top: 50px; 
+        transition: 0.3s ease;
+        height: 100%;
+    }
+
+    .menu-card-custom:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(224, 123, 57, 0.15);
+    }
+    
+    .menu-card-custom:hover .food-ellipse-img {
+        transform: scale(1.05) rotate(3deg);
+    }
+
+    /* Small circular icons for the top categories */
+    .small-ellipse-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        margin-bottom: 10px;
+        transition: 0.3s ease;
+    }
+
+    .small-menu-card {
+        background: white;
+        border-radius: 20px;
+        padding: 20px 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: 0.3s ease;
+        height: 100%;
+    }
+
+    .small-menu-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(224, 123, 57, 0.15);
+    }
+
+    .small-menu-card:hover .small-ellipse-img {
+        transform: scale(1.1);
+    }
+
+    /* Transparent background for sections to show dots */
+    .bg-transparent-custom {
+        background-color: transparent !important;
+    }
+</style>
+
+<section class="hero-section">
+    <div class="container text-center text-white">
+        <h1 class="display-4 fw-bold">
+            Order food & homemade meals
+        </h1>
+        <p class="lead mb-4">
+            Discover restaurants & home chefs near you
+        </p>
+        <div class="search-box">
+            <input type="text" placeholder="Search food, chefs or dishes">
+        </div>
+        <div class="row mt-5 g-4">
+            <div class="col-md-4">
+                <a href="{% url 'core:popular_food' %}" class="feature-card text-decoration-none">
+                    <h3>🔥 Popular Dishes</h3>
+                    <p>Trending Food Items</p>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'core:home_food' %}" class="feature-card text-decoration-none">
+                    <h3>🏠 Home Food</h3>
+                    <p>Cooked by Home Chefs</p>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'core:restaurant_food' %}" class="feature-card text-decoration-none">
+                    <h3>🍽 Restaurant Food</h3>
+                    <p>Order from Restaurants</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="py-5 bg-transparent-custom">
+    <div class="container mt-4">
+        <h2 class="text-center mb-5 fw-bold" style="color: #2E4057;">Order our best food options</h2>
+        <div class="row text-center justify-content-center g-4">
+            
+            {% for food in foods %}
+            <div class="col-md-2 col-6">
+                <div class="small-menu-card">
+                    {% if food.image %}
+                    <img src="{{ food.image.url }}" class="small-ellipse-img">
+                    {% else %}
+                    <img src="/static/images/default_food.jpg" class="small-ellipse-img">
+                    {% endif %}
+                    <h6 class="mt-2 fw-bold" style="color: #2E4057;">{{ food.name }}</h6>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+</section>
+
+
+<!-- <section class="py-5 bg-transparent-custom">
+    <div class="container mt-4">
+        <h2 class="text-center mb-5 fw-bold" style="color: #2E4057;">Order our best food options</h2>
+        <div class="row text-center justify-content-center g-4">
+            {% for food in foods|slice:":6" %}
+            <div class="col-md-2 col-6">
+                <div class="small-menu-card">
+                    {% if food.image %}
+                    <img src="{{ food.image.url }}" class="small-ellipse-img">
+                    {% else %}
+                    <img src="/static/images/default_food.jpg" class="small-ellipse-img">
+                    {% endif %}
+                    <h6 class="mt-2 fw-bold" style="color: #2E4057;">{{ food.name }}</h6>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section> -->
+
+<section class="container py-5">
+    <h2 class="mb-5 text-center fw-bold" style="color: #2E4057;">Popular Dishes</h2>
+    <div class="row">
+        {% for food in foods %}
+        <div class="col-md-3 mb-5">
+            <div class="card shadow-sm menu-card-custom text-center">
+                {% if food.image %}
+                <img src="{{ food.image.url }}" class="food-ellipse-img">
+                {% else %}
+                <img src="/static/images/default_food.jpg" class="food-ellipse-img">
+                {% endif %}
+                <div class="card-body pt-2 px-3 pb-4 d-flex flex-column">
+                    <h5 class="fw-bold mb-1" style="color: #2E4057;">{{ food.name }}</h5>
+                    <h5 class="fw-bold mb-4 mt-auto" style="color: #E07B39;">₹{{ food.selling_price }}</h5>
+                    <a href="{% url 'customers:add_to_cart' food.id %}" class="btn w-100 fw-bold py-2 mt-auto" style="border-radius: 25px; color: #2E4057; background-color: #ffc107; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);">
+                        <i class="fas fa-shopping-cart me-1"></i> Add to Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="py-5 bg-transparent-custom">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold" style="color: #2E4057;">Why Choose Lovemeal?</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm text-center p-4" style="border-radius: 20px;">
+                    <div class="mb-3">
+                        <i class="fas fa-home fa-3x" style="color: #E07B39;"></i>
+                    </div>
+                    <h4 class="fw-bold" style="color: #2E4057;">Authentic Home Food</h4>
+                    <p class="text-muted">Real homemade food cooked by local home chefs, not restaurants. Every meal is made with love!</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm text-center p-4" style="border-radius: 20px;">
+                    <div class="mb-3">
+                        <i class="fas fa-map-marker-alt fa-3x" style="color: #E07B39;"></i>
+                    </div>
+                    <h4 class="fw-bold" style="color: #2E4057;">Regional Cuisine</h4>
+                    <p class="text-muted">Missing your hometown food? Find chefs who specialize in your regional cuisine!</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm text-center p-4" style="border-radius: 20px;">
+                    <div class="mb-3">
+                        <i class="fas fa-clock fa-3x" style="color: #E07B39;"></i>
+                    </div>
+                    <h4 class="fw-bold" style="color: #2E4057;">Fresh & Fast</h4>
+                    <p class="text-muted">Food is prepared fresh after you order. Real-time tracking from kitchen to your doorstep!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-transparent-custom">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold" style="color: #2E4057;">How It Works</h2>
+        <div class="row g-4">
+            <div class="col-md-3 text-center">
+                <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; border: 3px solid #E07B39;">
+                    <span class="fs-2 fw-bold" style="color: #E07B39;">1</span>
+                </div>
+                <h5 class="fw-bold" style="color: #2E4057;">Browse Food</h5>
+                <p class="text-muted">Explore homemade dishes from local chefs near you</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; border: 3px solid #E07B39;">
+                    <span class="fs-2 fw-bold" style="color: #E07B39;">2</span>
+                </div>
+                <h5 class="fw-bold" style="color: #2E4057;">Place Order</h5>
+                <p class="text-muted">Chef accepts and starts preparing fresh food for you</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; border: 3px solid #E07B39;">
+                    <span class="fs-2 fw-bold" style="color: #E07B39;">3</span>
+                </div>
+                <h5 class="fw-bold" style="color: #2E4057;">Fast Delivery</h5>
+                <p class="text-muted">Delivery partner picks up and delivers to your door</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; border: 3px solid #E07B39;">
+                    <span class="fs-2 fw-bold" style="color: #E07B39;">4</span>
+                </div>
+                <h5 class="fw-bold" style="color: #2E4057;">Enjoy!</h5>
+                <p class="text-muted">Enjoy authentic homemade food and rate your experience</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 shadow-sm" style="background-color: #2E4057; color: white;">
+    <div class="container text-center">
+        <h2 class="mb-4 fw-bold">Are You a Home Chef?</h2>
+        <p class="lead mb-4">Turn your cooking skills into income! Join Lovemeal and start earning from home.</p>
+        <a href="{% url 'chefs:register' %}" class="btn btn-warning btn-lg px-5 fw-bold" style="border-radius: 30px;">
+            <i class="fas fa-user-chef me-2"></i> Register as Chef
+        </a>
+    </div>
+</section>
+
+<section class="py-5 bg-transparent-custom">
+    <div class="container text-center">
+        <h2 class="mb-4 fw-bold" style="color: #2E4057;">Want to Deliver?</h2>
+        <p class="lead mb-4" style="color: #2E4057;">Earn by delivering homemade meals. Flexible hours, good earnings!</p>
+        <a href="{% url 'delivery:register' %}" class="btn btn-primary btn-lg px-5 fw-bold" style="border-radius: 30px;">
+            <i class="fas fa-motorcycle me-2"></i> Join as Delivery Partner
+        </a>
+    </div>
+</section>
+
+<div class="container py-5">
+    <h2 class="mb-5 text-center fw-bold" style="color: #2E4057;">Available Food</h2>
+    <div class="row">
+        {% for food in foods %}
+        <div class="col-md-3 mb-5">
+            <div class="card shadow-sm menu-card-custom text-center">
+                {% if food.image %}
+                <img src="{{ food.image.url }}" class="food-ellipse-img">
+                {% else %}
+                <img src="/static/images/default_food.jpg" class="food-ellipse-img">
+                {% endif %}
+                <div class="card-body pt-2 px-3 pb-4 d-flex flex-column">
+                    <h5 class="fw-bold mb-1" style="color: #2E4057;">{{ food.name }}</h5>
+                    <h5 class="fw-bold mb-4 mt-auto" style="color: #E07B39;">₹{{ food.selling_price }}</h5>
+                    <a href="{% url 'customers:add_to_cart' food.id %}" class="btn w-100 fw-bold py-2 mt-auto" style="border-radius: 25px; color: #2E4057; background-color: #ffc107; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);">
+                         Add to Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

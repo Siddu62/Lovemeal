@@ -1,0 +1,74 @@
+.hero-section{
+    background: linear-gradient(135deg,#ff6b00,#ff3c00);
+    padding:90px 0;
+}
+.search-box input{
+    width:60%;
+    padding:15px 20px;
+    border-radius:40px;
+    border:none;
+    outline:none;
+}
+.feature-card{
+    display:block;
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    text-decoration:none;
+    color:#333;
+    transition:0.3s ease;
+}
+.feature-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.2);
+}
+.menu-card{
+    background:white;
+    padding:15px;
+    border-radius:20px;
+    transition:0.3s;
+}
+.menu-card:hover{
+    transform:scale(1.05);
+}
+.menu-img{
+    width:100%;
+    height:120px;
+    object-fit:cover;
+    border-radius:15px;
+}
+.food-card{
+    border-radius:20px;
+    overflow:hidden;
+    transition:0.3s;
+}
+.food-card:hover{
+    transform:translateY(-5px);
+}
+.food-card{
+border-radius:15px;
+transition:0.3s;
+}
+
+.food-card:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+.card-img-top{
+height:180px;
+object-fit:cover;
+border-top-left-radius:15px;
+border-top-right-radius:15px;
+}
+/* Fix navbar click issue */
+.navbar{
+position:relative;
+z-index:9999;
+}
+
+.hero-section{
+position:relative;
+z-index:1;
+}
+

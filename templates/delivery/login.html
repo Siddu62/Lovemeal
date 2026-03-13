@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+<h2>Delivery Partner Login 🛵</h2>
+<form method="POST">
+{% csrf_token %}
+<div class="mb-3">
+<label>Email</label>
+<input type="email" name="email" class="form-control">
+</div>
+<div class="mb-3">
+<label>Password</label>
+<input type="password" name="password" class="form-control">
+</div>
+<button class="btn btn-primary w-100">Login</button>
+</form>
+<div class="text-center mt-3">
+<a href="{% url 'delivery:register' %}" class="btn btn-outline-warning">
+Register as Delivery Partner
+</a>
+</div>
+</div>
+{% endblock %}

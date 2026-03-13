@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    /* Warm, Appetizing Background */
+    body {
+        background-color: #FFF5EC !important; 
+        background-image: radial-gradient(#E07B39 1.5px, transparent 1.5px);
+        background-size: 30px 30px;
+    }
+
+    /* Fixed Navigation Pills */
+    .custom-pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 30px;
+        padding: 10px 25px;
+        font-weight: bold;
+        color: #2E4057;
+        background: #ffffff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        text-decoration: none;
+        transition: 0.3s ease;
+    }
+    
+    .custom-pill.active-pill {
+        background: #E07B39;
+        color: #ffffff;
+        box-shadow: 0 4px 15px rgba(224, 123, 57, 0.4);
+    }
+
+    .custom-pill:hover:not(.active-pill) {
+        background: #ffe4d6;
+        color: #E07B39;
+        transform: translateY(-2px);
+    }
+
+    /* Ellipse Floating Food Image - Slightly smaller to fit 4 per row */
+    .food-ellipse-img {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: -40px auto 15px auto; 
+        border: 5px solid white;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        transition: 0.3s ease;
+    }
+
+    /* Redesigned Card */
+    .menu-card-custom {
+        background: white;
+        border-radius: 25px;
+        border: none;
+        margin-top: 50px; /* Leaves space for the floating image */
+        transition: 0.3s ease;
+        height: 100%;
+    }
+
+    .menu-card-custom:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(224, 123, 57, 0.15);
+    }
+    
+    .menu-card-custom:hover .food-ellipse-img {
+        transform: scale(1.05) rotate(3deg);
+    }
+
+    /* Modern Search Bar */
+    .search-box-custom {
+        border-radius: 30px 0 0 30px;
+        border: none;
+        padding: 12px 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    
+    .search-btn-custom {
+        border-radius: 0 30px 30px 0;
+        background-color: #2E4057;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: 0.3s;
+    }
+
+    .search-btn-custom:hover {
+        background-color: #E07B39;
+        color: white;
+    }
+
+    /* Modern Category Filters */
+    .category-pill {
+        display: inline-block;
+        border-radius: 25px;
+        padding: 8px 22px;
+        margin: 5px;
+        background-color: white;
+        color: #2E4057;
+        font-weight: 500;
+        text-decoration: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        transition: 0.3s ease;
+    }
+
+    .category-pill:hover {
+        background-color: #E07B39;
+        color: white;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="container py-5">
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+        
+        <div class="d-flex mb-3 mb-md-0 gap-3">
+            <a href="{% url 'core:homepage' %}" class="custom-pill">
+                <i class="fas fa-arrow-left me-2"></i> Home
+            </a>
+            <span class="custom-pill active-pill">
+                🍽️ Restaurant Food
+            </span>
+        </div>
+        
+        <a href="{% url 'core:home_food' %}" class="btn fw-bold shadow-sm" style="border-radius: 30px; padding: 12px 25px; background-color: #2E4057; color: white;">
+            🏠 Go to Home Food <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+
+    </div>
+
+    <div class="text-center mb-4">
+        <h1 class="fw-bold" style="color: #2E4057; font-size: 2.5rem;">Restaurant Delights</h1>
+        <p class="text-muted fs-5">Premium dishes from top-rated local restaurants.</p>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-7 mx-auto">
+            <form method="GET">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control search-box-custom" placeholder="Search for your favorite dish...">
+                    <button class="btn search-btn-custom">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mb-5 text-center">
+        <a href="?category=South Indian" class="category-pill">South Indian</a>
+        <a href="?category=North Indian" class="category-pill">North Indian</a>
+        <a href="?category=Biryani" class="category-pill">Biryani</a>
+        <a href="?category=Chinese" class="category-pill">Chinese</a>
+        <a href="?category=Desserts" class="category-pill">Desserts</a>
+        
+        <a href="{% url 'core:restaurant_food' %}" class="category-pill" style="background: #2E4057; color: white;">
+            <i class="fas fa-times me-1"></i> Clear
+        </a>
+    </div>
+
+    <div class="row">
+        {% for food in foods %}
+        <div class="col-md-3 mb-5">
+            <div class="card shadow-sm menu-card-custom text-center">
+                
+                {% if food.image %}
+                <img src="{{ food.image.url }}" class="food-ellipse-img">
+                {% else %}
+                <img src="/static/images/default_food.jpg" class="food-ellipse-img">
+                {% endif %}
+
+                <div class="card-body pt-2 px-3 pb-4 d-flex flex-column">
+                    <h5 class="fw-bold mb-1" style="color: #2E4057;">{{ food.name }}</h5>
+                    <p class="text-muted small mb-3">Restaurant Style</p>
+                    <h5 class="fw-bold mb-4 mt-auto" style="color: #E07B39;">₹{{ food.selling_price }}</h5>
+                    
+                    <a href="{% url 'customers:add_to_cart' food.id %}" 
+                       class="btn w-100 fw-bold py-2 mt-auto" 
+                       style="border-radius: 25px; color: #2E4057; background-color: #ffc107; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);">
+                        <i class="fas fa-shopping-cart me-1"></i> Add
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        {% if not foods %}
+        <div class="col-12 text-center py-5">
+            <h4 class="text-muted"><i class="fas fa-search me-2"></i> No dishes found matching your search.</h4>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

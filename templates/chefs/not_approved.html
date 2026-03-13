@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Approval Pending{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2 class="text-warning">⏳ Approval Pending</h2>
+    <p class="lead">
+        Your chef account is under review.
+        Please wait until admin approves your profile.
+    </p>
+
+    <a href="{% url 'chefs:logout' %}" class="btn btn-danger mt-3">
+        Logout
+    </a>
+</div>
+{% endblock %}

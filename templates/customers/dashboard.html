@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+<div class="d-flex justify-content-between align-items-center mb-4">
+<h2 class="fw-bold"><i class="fas fa-shopping-bag text-warning"></i>My Orders 🍱</h2>
+<a href="{% url 'customers:logout' %}" class="btn btn-danger px-4">
+<i class="fas fa-sign-out-alt"></i> Logout
+</a>
+</div>
+<!-- Stats -->
+<div class="row mb-4">
+<div class="col-md-6">
+<div class="card shadow border-0 p-3 text-center" style="background:#e9f7ef;">
+<h5>Total Orders</h5>
+<h3>{{ total_orders }}</h3>
+</div>
+</div>
+<div class="col-md-6">
+<div class="card shadow border-0 p-3 text-center" style="background:#fdebd0;">
+<h5>Total Spent</h5>
+<h3>₹{{ total_spent }}</h3>
+</div>
+</div>
+</div>
+<h4 class="mb-3">Order History</h4>
+<table class="table table-hover shadow-sm">
+<thead class="table-dark">
+    <tr>
+        <!-- <th>ID</th> -->
+        <th>Status</th>
+        <th>Items</th>
+        <th>Total</th>
+    </tr>
+</thead>
+<tbody>
+{% for order in orders %}
+<tr>
+<!-- <td>#{{ order.id }}</td> -->
+<!-- <td>{{ forloop.counter }}</td> -->
+<td>
+{% if order.status == "pending" %}
+<span class="badge bg-warning">Pending</span>
+<a href="{% url 'customers:cancel_order' order.id %}" 
+class="btn btn-danger btn-sm ms-2">
+Cancel
+</a>
+{% elif order.status == "accepted" %}
+<span class="badge bg-info">Accepted</span>
+{% elif order.status == "preparing" %}
+<span class="badge bg-primary">Preparing</span>
+{% elif order.status == "ready" %}
+<span class="badge bg-secondary">Ready</span>
+{% elif order.status == "picked_up" %}
+<span class="badge bg-dark">Out for Delivery</span>
+{% elif order.status == "delivered" %}
+<span class="badge bg-success">Delivered</span>
+{% endif %}
+</td>
+<td>
+<ul class="mb-0">
+{% for item in order.items.all %}
+<li>
+{{ item.food_item.name }}
+x {{ item.quantity }}
+(₹{{ item.price }})
+</li>
+{% endfor %}
+</ul>
+</td>
+<td>
+<strong>₹{{ order.total_amount }}</strong>
+</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="4" class="text-center">No orders yet</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

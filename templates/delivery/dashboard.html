@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+<div class="d-flex justify-content-between align-items-center mb-4">
+<h2>Delivery Dashboard 🛵</h2>
+<a href="{% url 'delivery:logout' %}" class="btn btn-danger">
+Logout
+</a>
+</div>
+<div class="row mb-4">
+<div class="col-md-6">
+<div class="card text-center shadow p-3" style="background:#d1ecf1;">
+<h5>Completed Deliveries</h5>
+<div class="col-md-6">
+<div class="card text-center shadow p-3" style="background:#d4edda;">
+<h5>Total Earnings</h5>
+<h3>₹{{ total_earnings }}</h3>
+</div>
+</div>
+<h3>{{ completed_count }}</h3>
+</div>
+</div>
+</div>
+
+<h4>Ready Orders</h4>
+<table class="table table-hover shadow-sm">
+<thead class="table-dark">
+<tr>
+<th>Order</th>
+<th>Customer</th>
+<th>Total</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+{% for order in ready_orders %}
+<tr>
+<!-- <td>#{{ order.id }}</td> -->
+ <td>{{ forloop.counter }}</td>
+<td>{{ order.customer.first_name }}
+<br>
+{{ order.contact_number }}
+<br>
+{{ order.delivery_address }}</td>
+<td>₹{{ order.total_amount }}</td>
+<td><a href="{% url 'delivery:pickup_order' order.id %}" class="btn btn-success">Accept</a></td>
+</tr>
+{% empty %}
+<tr>
+<!-- <td colspan="4">No ready orders</td> -->
+<td colspan="4" class="text-center">No ready orders</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<h4 class="mt-4">Travelling Orders</h4>
+<table class="table table-dark">
+<tr>
+<th>Order</th>
+<th>Customer</th>
+<th>Total</th>
+<th>Action</th>
+</tr>
+{% for order in delivering_orders %}
+<tr>
+<!-- <td>#{{ order.id }}</td> -->
+ <td>{{ forloop.counter }}</td>
+<td>
+{{ order.customer.first_name }}
+<br>
+{{ order.contact_number }}
+<br>
+{{ order.delivery_address }}
+</td>
+<td>₹{{ order.total_amount }}</td>
+<td>
+<a href="{% url 'delivery:deliver_order' order.id %}" class="btn btn-warning">
+Delivered
+</a>
+</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="4">No travelling orders</td>
+</tr>
+{% endfor %}
+</table>
+
+<h4 class="mt-4">Completed Orders</h4>
+<table class="table table-success shadow-sm">
+<thead class="table-dark">
+<tr>
+<th>Order</th>
+<th>Customer</th>
+<th>Total</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+{% for order in completed_orders %}
+<tr>
+<!-- <td>#{{ order.id }}</td> -->
+ <td>{{ forloop.counter }}</td>
+<td>
+{{ order.customer.first_name }} <br>
+{{ order.contact_number }} <br>
+{{ order.delivery_address }}
+</td>
+<td>₹{{ order.total_amount }}</td>
+<td>
+<span class="badge bg-success">Delivered</span>
+</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="4" class="text-center">
+No completed deliveries
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+{% endblock %}

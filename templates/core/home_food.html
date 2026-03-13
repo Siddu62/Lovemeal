@@ -1,0 +1,123 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    /* Warm, Appetizing Background */
+    body {
+        background-color: #FFF5EC !important; /* A warm, soft cream/peach color instead of white */
+        background-image: radial-gradient(#E07B39 1.5px, transparent 1.5px);
+        background-size: 30px 30px;
+    }
+
+    /* Fixed Navigation Pills (Removed Bootstrap nav-link conflicts) */
+    .custom-pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 30px;
+        padding: 10px 25px;
+        font-weight: bold;
+        color: #2E4057;
+        background: #ffffff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        text-decoration: none;
+        transition: 0.3s ease;
+    }
+    
+    .custom-pill.active-pill {
+        background: #E07B39;
+        color: #ffffff;
+        box-shadow: 0 4px 15px rgba(224, 123, 57, 0.4);
+    }
+
+    .custom-pill:hover:not(.active-pill) {
+        background: #ffe4d6;
+        color: #E07B39;
+        transform: translateY(-2px);
+    }
+
+    /* Ellipse Floating Food Image */
+    .food-ellipse-img {
+        width: 170px;
+        height: 170px;
+        object-fit: cover;
+        border-radius: 50%; /* Makes it a perfect circle */
+        margin: -50px auto 15px auto; /* Pulls the image up out of the card */
+        border: 6px solid white;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        transition: 0.3s ease;
+    }
+
+    /* Redesigned Card */
+    .menu-card-custom {
+        background: white;
+        border-radius: 25px;
+        border: none;
+        margin-top: 60px; /* Leaves space for the floating image */
+        transition: 0.3s ease;
+    }
+
+    .menu-card-custom:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(224, 123, 57, 0.15);
+    }
+    
+    .menu-card-custom:hover .food-ellipse-img {
+        transform: scale(1.05) rotate(3deg);
+    }
+</style>
+
+<div class="container py-5">
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-5">
+        
+        <div class="d-flex mb-3 mb-md-0 gap-3">
+            <a href="{% url 'core:homepage' %}" class="custom-pill">
+                <i class="fas fa-arrow-left me-2"></i> Home
+            </a>
+            <span class="custom-pill active-pill">
+                🏠 Home Food
+            </span>
+        </div>
+        
+        <a href="{% url 'core:restaurant_food' %}" class="btn fw-bold shadow-sm" style="border-radius: 30px; padding: 12px 25px; background-color: #2E4057; color: white;">
+            🍽️ Go to Restaurant Food <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+
+    </div>
+
+    <div class="text-center mb-5 mt-4">
+        <h1 class="fw-bold" style="color: #2E4057; font-size: 2.5rem;">Authentic Home Meals</h1>
+        <p class="text-muted fs-5">Freshly prepared with love by local home chefs.</p>
+    </div>
+
+    <div class="row">
+        {% for food in foods %}
+        <div class="col-md-4 mb-5">
+            <div class="card shadow-sm menu-card-custom text-center h-100">
+                
+                {% if food.image %}
+                <img src="{{ food.image.url }}" class="food-ellipse-img">
+                {% else %}
+                <img src="/static/images/default_food.jpg" class="food-ellipse-img">
+                {% endif %}
+
+                <div class="card-body pt-2 px-4 pb-4">
+                    <h4 class="fw-bold mb-1" style="color: #2E4057;">{{ food.name }}</h4>
+                    <p class="text-muted small mb-3">Cooked fresh on order</p>
+                    <h4 class="fw-bold mb-4" style="color: #E07B39;">₹{{ food.selling_price }}</h4>
+                    
+                    <a href="{% url 'customers:add_to_cart' food.id %}" 
+                       class="btn w-100 fw-bold py-2" 
+                       style="border-radius: 25px; color: #2E4057; background-color: #ffc107; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);">
+                        <i class="fas fa-shopping-cart me-1"></i> Add to Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

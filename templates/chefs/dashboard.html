@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Chef Dashboard 👨🍳</h2>
+    <a href="{% url 'chefs:logout' %}" class="btn btn-danger">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+<p>Welcome <strong>{{ chef.full_name }}</strong></p>
+<p>City: {{ chef.city }}</p>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card text-center shadow-lg border-0 p-4" style="background:#fff3cd;">
+            <h5 class="text-muted">Completed Orders</h5>
+            <h2 class="fw-bold">{{ completed_orders_count }}</h2>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card text-center shadow-lg border-0 p-4" style="background:#d1ecf1;">
+            <h5 class="text-muted">Total Earnings</h5>
+            <h2 class="fw-bold text-success">₹{{ total_earnings }}</h2>
+        </div>
+    </div>
+</div>
+
+<h4>Incoming Orders</h4>
+<table class="table table-hover shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Order</th>
+            <th>Customer & Items</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for order in incoming_orders %}
+        <tr>
+            <!-- <td>#{{ order.id }}</td> -->
+            <td>{{ forloop.counter }}</td>
+            <td>
+                <strong>{{ order.customer.first_name }}</strong> <br>
+                <small>{{ order.contact_number }}</small> <br>
+                <small>{{ order.delivery_address }}</small> <br>
+                <hr class="my-1">
+                <strong class="text-primary">Food Items:</strong><br>
+                {% for item in order.items.all %}
+                    - {{ item.food_item.name }} (Qty: {{ item.quantity }})<br>
+                {% endfor %}
+            </td>
+            <td><strong>₹{{ order.total_amount }}</strong></td>
+            <td>
+                <a href="{% url 'chefs:accept_order' order.id %}" class="btn btn-success btn-sm">Accept</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No incoming orders</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="mt-4">Preparing Orders</h4>
+<table class="table table-warning">
+    <tr>
+        <th>Order</th>
+        <th>Customer & Items</th>
+        <th>Total</th>
+        <th>Action</th>
+    </tr>
+    {% for order in preparing_orders %}
+        <tr>
+            <!-- <td>#{{ order.id }}</td> -->
+             <td>{{ forloop.counter }}</td>
+            <td>
+                <strong>{{ order.customer.first_name }}</strong> <br>
+                <small>{{ order.contact_number }}</small> <br>
+                <small>{{ order.delivery_address }}</small> <br>
+                <hr class="my-1">
+                <strong class="text-primary">Food Items:</strong><br>
+                {% for item in order.items.all %}
+                    - {{ item.food_item.name }} (Qty: {{ item.quantity }})<br>
+                {% endfor %}
+            </td>
+            <td><strong>₹{{ order.total_amount }}</strong></td>
+            <td>
+                <a href="{% url 'chefs:mark_ready' order.id %}" class="btn btn-primary btn-sm">Ready</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No preparing orders</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<h4 class="mt-4">Ready Orders</h4>
+<table class="table table-info">
+    <tr>
+        <th>Order</th>
+        <th>Customer & Items</th>
+        <th>Total</th>
+        <th>Action</th>
+    </tr>
+    {% for order in ready_orders %}
+        <tr>
+            <!-- <td>#{{ order.id }}</td> -->
+             <td>{{ forloop.counter }}</td>
+            <td>
+                <strong>{{ order.customer.first_name }}</strong> <br>
+                <small>{{ order.contact_number }}</small> <br>
+                <small>{{ order.delivery_address }}</small> <br>
+                <hr class="my-1">
+                <strong class="text-primary">Food Items:</strong><br>
+                {% for item in order.items.all %}
+                    - {{ item.food_item.name }} (Qty: {{ item.quantity }})<br>
+                {% endfor %}
+            </td>
+            <td><strong>₹{{ order.total_amount }}</strong></td>
+            <td>
+                <a href="{% url 'chefs:dashboard' %}" class="btn btn-warning btn-sm" onclick="alert('Food is handed over to the Delivery Boy!');">
+                    <i class="fas fa-motorcycle"></i> Send to Delivery Boy
+                </a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No ready orders</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<h4 class="mt-4">Completed Orders</h4>
+<table class="table table-success">
+    <tr>
+        <th>Order</th>
+        <th>Customer & Items</th>
+        <th>Total</th>
+        <th>Status</th>
+    </tr>
+    {% for order in completed_orders %}
+        <tr>
+            <!-- <td>#{{ order.id }}</td> -->
+             <td>{{ forloop.counter }}</td>
+            <td>
+                <strong>{{ order.customer.first_name }}</strong> <br>
+                <small>{{ order.contact_number }}</small> <br>
+                <small>{{ order.delivery_address }}</small> <br>
+                <hr class="my-1">
+                <strong class="text-primary">Food Items:</strong><br>
+                {% for item in order.items.all %}
+                    - {{ item.food_item.name }} (Qty: {{ item.quantity }})<br>
+                {% endfor %}
+            </td>
+            <td><strong>₹{{ order.total_amount }}</strong></td>
+            <td>
+                <span class="badge bg-success">Delivered</span>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No completed orders</td>
+        </tr>
+    {% endfor %}
+</table>
+</div>
+
+{% endblock %}

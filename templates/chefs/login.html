@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+<div class="row justify-content-center">
+<div class="col-md-6">
+<div class="card shadow-lg border-0">
+<div class="card-header text-center text-white"
+     style="background: linear-gradient(135deg,#E07B39,#d16829);">
+<h3>Chef Login 👨‍🍳</h3>
+</div>
+<div class="card-body p-4">
+<form method="POST">
+{% csrf_token %}
+<div class="mb-3">
+<label>Email</label>
+<input type="email" name="email" class="form-control">
+</div>
+<div class="mb-3">
+<label>Password</label>
+<input type="password" name="password" class="form-control">
+</div>
+<button class="btn btn-primary w-100">Login</button>
+</form>
+<!-- Register Button -->
+<div class="text-center mt-3">
+<a href="{% url 'chefs:register' %}" class="btn btn-outline-warning">Register as Chef
+</a>
+</div>
+<hr>
+<div class="text-center">
+<p class="mb-0">
+New Chef?
+<a href="{% url 'chefs:register' %}" class="fw-bold text-decoration-none" style="color:#E07B39;">
+Register here
+</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
